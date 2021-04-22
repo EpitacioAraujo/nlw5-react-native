@@ -3,18 +3,19 @@ import {
     StyleSheet,
     Text,
     View,
-    FlatList
+    FlatList,
+    ActivityIndicator
 } from 'react-native';
 
 import { Header } from '../../components/Header';
 import { EnviromentButton } from './../../components/EnviromentButton/index';
-import {Load} from '../../components/Load';
+import { PlantCardPrimary } from './../../components/PlantCardPrimary/index';
+import { Load } from '../../components/Load';
 
 import api from '../../services/api';
 
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
-import { PlantCardPrimary } from './../../components/PlantCardPrimary/index';
 
 interface EnviromentsProps {
     key: string,
@@ -62,10 +63,13 @@ export function PlantSelect() {
         const {data} = await api.get<PLantProps[]>(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
 
         if(data.length == 0){
-            setPage(page - 1);
             setLoadMore(false);
+            setLoadedAll(true);
             return;
         }
+
+        if(data.length < 8)
+            setLoadedAll(true);
 
         if(page > 1){
             setPlants(oldValue => [...oldValue, ...data]);
@@ -80,7 +84,7 @@ export function PlantSelect() {
     }
 
     function handleFetchMore(distance: number){
-        if(distance < 1)
+        if(distance < 1 || loadedAll)
             return;
 
         setLoadMore(true);
@@ -145,6 +149,9 @@ export function PlantSelect() {
                     numColumns={2}
                     onEndReachedThreshold={0.1}
                     onEndReached={({distanceFromEnd}) => handleFetchMore(distanceFromEnd)}
+                    ListFooterComponent={
+                        loadMore && <ActivityIndicator color={colors.green} />
+                    }
                 />
             </View>
         </View>
