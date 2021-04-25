@@ -112,7 +112,7 @@ export function PlantSave() {
                     {showDatePicker && (<DateTimePicker
                         value={selectedDateTime}
                         mode="time"
-                        display={Platform.OS == "ios" ? 'spinner' : 'default'}
+                        display={'spinner'}
                         onChange={handleChangeTime}
                     />)}
 
