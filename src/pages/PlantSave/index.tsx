@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/core';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
+import { SvgFromUri } from 'react-native-svg';
 import { format, isBefore } from 'date-fns';
 import { loadPlant, PlantProps, savePlant } from './../../libs/storage';
 
-import { SvgFromUri } from 'react-native-svg';
-import { Button } from '../../components/Button';
+import { Button } from '@components/Button';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
 import { RectButton, ScrollView } from 'react-native-gesture-handler';
 
